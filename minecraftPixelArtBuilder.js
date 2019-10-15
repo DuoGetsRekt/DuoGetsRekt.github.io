@@ -14,7 +14,7 @@ function getUserInputValues() {
     /*Checks if the ratio between scaled block resolution and image ratio is 2:1 or more,
     this is to ensure that the output pixel art has higher quality image accuracy due to
     color blending*/
-    if (verticalBlockResolution == undefined) {
+    if (verticalBlockResolution == 0) {
 
       verticalBlockResolution = 60;
 
@@ -76,9 +76,9 @@ function createImageColorMap(verticalBlockResolution, imageHeight, imageWidth, s
   var maximumProgress = (imageWidth / (ratio / 2)) * (imageHeight / ratio);
   var currentProgress = 0;
 
-  for (var y = 0; y < imageHeight - 1; y += (ratio) / 4) {
+  for (var y = 0; y < imageHeight - 1; y++) {
 
-    for (var x = 0; x < imageWidth - 1; x += (ratio) / 4) {
+    for (var x = 0; x < imageWidth - 1; x += (ratio)) {
 
     //  pixelDataSet.push();
 
@@ -181,17 +181,11 @@ function matchColorPointsToMinecraftBlocks(pixelDataSet, ratio, verticalBlockRes
         }
 
     /*  if (b == 5) {
-
         for (let y = 0; y < newDataSet.length; y++) {
-
           if (newDataSet[y].blockValue == "") {
-
             console.log("R: " + pixelDataSet[y].redValue + " G: " + pixelDataSet[y].greenValue + " B: " + pixelDataSet[y].blueValue);
-
           }
-
         }
-
       } */
       }
 
@@ -230,7 +224,7 @@ function calculateCoordinatePoints(pixelDataSet, ratio, verticalBlockResolution)
   for (var i = 1; i < pixelDataSet.length - 1; i += 2) {
 
     currentCalculatedXValue += 16;
-    if (currentCalculatedXValue > ((verticalBlockResolution * ratio) * 128)) {
+    if (currentCalculatedXValue > ((verticalBlockResolution * ratio) * 32) - 16) {
 
       currentCalculatedYValue += 16;
       currentCalculatedXValue = 0;
@@ -259,12 +253,12 @@ function constructBlockCanvas(ratio, newDataSet, verticalBlockResolution) {
 
 
 
-  w = Math.round(verticalBlockResolution * ratio * 16) + 1;
-  h = verticalBlockResolution * 16;
+  w = Math.round(verticalBlockResolution * ratio * 16) * 2 + 1;
+  h = ((verticalBlockResolution * 16) - 16) * 2;
 
   const canvas = document.getElementById('displayMinecraftBlockConstruction');
 
-  canvas.width = w * 4;
+  canvas.width = w;
   canvas.height = h;
 
 
@@ -277,8 +271,6 @@ function constructBlockCanvas(ratio, newDataSet, verticalBlockResolution) {
     if ((newDataSet[i].blockValue).length > 0) {
 
       let blockImage = new Image();
-
-
 
       blockImage.onload = function() {
 
@@ -297,21 +289,14 @@ function constructBlockCanvas(ratio, newDataSet, verticalBlockResolution) {
 
 //WORK ON LATER
 /*function verticalBlend(pixelDataSet, averageBlend) {
-
   var iSim = i;
   while (iSim >= 0 && pixelDataSet[iSim].xCoordinate != pixelDataSet[i].xCoordinate || i == iSim) {
-
     iSim--;
-
   }
   averageBlend = averageBlend + pixelDataSet[iSim].redValue;
-
   iSim = i;
   while (iSim < pixelDataSet - 1 && pixelDataSet[iSim].xCoordinate != pixelDataSet[i].xCoordinate || i == iSim) {
-
     iSim++;
-
   }
   averageBlend = averageBlend + pixelDataSet[iSim].redValue;
-
 }*/
