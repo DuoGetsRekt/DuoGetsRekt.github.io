@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+
+    <title>Minecraft Pixel Art Maker</title>
+
+    <script src="minecraftPixelArtBuilder.js" type="text/javascript">
+
+
+
+    </script>
+
+  </head>
+
+  <body>
+
+    <p>Vertical Block Count</p>
+    <input type="text" id="verticalBlockCountTextBox">
+    <p id="resolutionRatioErrorMessage"></p>
+    <br>
+    <input type="button" onclick="getUserInputValues()" id="submit" value="Submit">
+    <br>
+
+    <h5>Induce Horizontal Blend</h5>
+    <input type="checkbox" name="Induce Horizontal Blend" id="induceHorizontalBlendingCheckbox">
+    <br>
+    <hr>
+
+    <p>Select an image to render</p>
+    <select id="image-select">
+
+      <option value="shrek.jpg">Vad gör du i mitt träsk?</option>
+      <option value="endgame-poster.jpg">Minceraft: Endergame</option>
+      <option value="pancakes.jpg">Sorry aboot that eh?</option>
+
+    </select>
+
+
+    <hr>
+
+    <p>Vad gör du i mitt träsk?</p>
+    <img src="shrek.jpg" width="200px">
+
+    <hr>
+    <p>Minceraft: Endergame</p>
+    <img src="endgame-poster.jpg" width="200px">
+    <hr>
+
+    <p>Sorry aboot that eh?</p>
+    <img src="pancakes.jpg" width="200px">
+    <hr>
+
+    <p>Selected Image</p>
+    <canvas id="displayBaseImage" width="300" height="300"></canvas>
+    <hr>
+
+    <h3>The Masterpiece</h3>
+    <canvas id="displayMinecraftBlockConstruction"></canvas>
+
+  </body>
+
+</html>
