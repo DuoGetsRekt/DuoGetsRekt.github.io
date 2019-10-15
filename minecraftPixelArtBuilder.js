@@ -76,7 +76,7 @@ function createImageColorMap(verticalBlockResolution, imageHeight, imageWidth, s
   var maximumProgress = (imageWidth / (ratio / 2)) * (imageHeight / ratio);
   var currentProgress = 0;
 
-  for (var y = 0; y < imageHeight - 1; y += (ratio)) {
+  for (var y = 0; y < imageHeight - 1; y += (ratio) * 2) {
 
     for (var x = 0; x < imageWidth - 1; x += (ratio / 2)) {
 
