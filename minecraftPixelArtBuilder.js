@@ -34,7 +34,7 @@ function getUserInputValues() {
 
   }
 
-  sampleImage.src = document.getElementById("image-select");
+  sampleImage.src = document.getElementById("image-select").value;
 
 }
 
