@@ -78,7 +78,7 @@ function createImageColorMap(verticalBlockResolution, imageHeight, imageWidth, s
 
   for (var y = 0; y < imageHeight - 1; y++) {
 
-    for (var x = 0; x < imageWidth - 1; x += (ratio / 2)) {
+    for (var x = 0; x < imageWidth - 1; x += (ratio)) {
 
     //  pixelDataSet.push();
 
@@ -230,7 +230,7 @@ function calculateCoordinatePoints(pixelDataSet, ratio, verticalBlockResolution)
   for (var i = 1; i < pixelDataSet.length - 1; i += 2) {
 
     currentCalculatedXValue += 16;
-    if (currentCalculatedXValue > ((verticalBlockResolution * ratio) * 32)) {
+    if (currentCalculatedXValue > ((verticalBlockResolution * ratio) * 32) - 16) {
 
       currentCalculatedYValue += 16;
       currentCalculatedXValue = 0;
