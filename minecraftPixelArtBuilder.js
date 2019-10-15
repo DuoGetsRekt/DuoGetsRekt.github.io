@@ -14,7 +14,7 @@ function getUserInputValues() {
     /*Checks if the ratio between scaled block resolution and image ratio is 2:1 or more,
     this is to ensure that the output pixel art has higher quality image accuracy due to
     color blending*/
-    if (verticalBlockResolution == 0) {
+    if (verticalBlockResolution == undefined) {
 
       verticalBlockResolution = 60;
 
@@ -76,9 +76,9 @@ function createImageColorMap(verticalBlockResolution, imageHeight, imageWidth, s
   var maximumProgress = (imageWidth / (ratio / 2)) * (imageHeight / ratio);
   var currentProgress = 0;
 
-  for (var y = 0; y < imageHeight - 1; y += (ratio)) {
+  for (var y = 0; y < imageHeight - 1; y += (ratio) / 4) {
 
-    for (var x = 0; x < imageWidth - 1; x += (ratio)) {
+    for (var x = 0; x < imageWidth - 1; x += (ratio) / 4) {
 
     //  pixelDataSet.push();
 
@@ -88,9 +88,9 @@ function createImageColorMap(verticalBlockResolution, imageHeight, imageWidth, s
 
         xCoordinate: x,
         yCoordinate: y,
-        redValue: 4, //(context.getImageData(x, y, 1, 1).data[0]), //(Math.round(Math.random() * 255)),
-        blueValue: 56, //(context.getImageData(x, y, 1, 1).data[2]), //(Math.round(Math.random() * 255)),
-        greenValue: 192 //(context.getImageData(x, y, 1, 1).data[1]) // (Math.round(Math.random() * 255))
+        redValue: (context.getImageData(x, y, 1, 1).data[0]), //(Math.round(Math.random() * 255)),
+        blueValue: (context.getImageData(x, y, 1, 1).data[2]), //(Math.round(Math.random() * 255)),
+        greenValue: (context.getImageData(x, y, 1, 1).data[1]) // (Math.round(Math.random() * 255))
 
       }
       pixelDataSet.push(pixelDataSetInstance);
