@@ -34,7 +34,7 @@ function getUserInputValues() {
 
   }
 
-  sampleImage.src = document.getElementById("image-select").value;
+  sampleImage.src = document.getElementById("image-select");
 
 }
 
@@ -76,7 +76,7 @@ function createImageColorMap(verticalBlockResolution, imageHeight, imageWidth, s
   var maximumProgress = (imageWidth / (ratio / 2)) * (imageHeight / ratio);
   var currentProgress = 0;
 
-  for (var y = 0; y < imageHeight - 1; y++) {
+  for (var y = 0; y < imageHeight - 1; y += (ratio)) {
 
     for (var x = 0; x < imageWidth - 1; x += (ratio)) {
 
@@ -88,9 +88,9 @@ function createImageColorMap(verticalBlockResolution, imageHeight, imageWidth, s
 
         xCoordinate: x,
         yCoordinate: y,
-        redValue: (context.getImageData(x, y, 1, 1).data[0]), //(Math.round(Math.random() * 255)),
-        blueValue: (context.getImageData(x, y, 1, 1).data[2]), //(Math.round(Math.random() * 255)),
-        greenValue: (context.getImageData(x, y, 1, 1).data[1]) // (Math.round(Math.random() * 255))
+        redValue: 4, //(context.getImageData(x, y, 1, 1).data[0]), //(Math.round(Math.random() * 255)),
+        blueValue: 56, //(context.getImageData(x, y, 1, 1).data[2]), //(Math.round(Math.random() * 255)),
+        greenValue: 192 //(context.getImageData(x, y, 1, 1).data[1]) // (Math.round(Math.random() * 255))
 
       }
       pixelDataSet.push(pixelDataSetInstance);
@@ -230,7 +230,7 @@ function calculateCoordinatePoints(pixelDataSet, ratio, verticalBlockResolution)
   for (var i = 1; i < pixelDataSet.length - 1; i += 2) {
 
     currentCalculatedXValue += 16;
-    if (currentCalculatedXValue > ((verticalBlockResolution * ratio) * 32) - 16) {
+    if (currentCalculatedXValue > ((verticalBlockResolution * ratio) * 16)) {
 
       currentCalculatedYValue += 16;
       currentCalculatedXValue = 0;
@@ -259,8 +259,8 @@ function constructBlockCanvas(ratio, newDataSet, verticalBlockResolution) {
 
 
 
-  w = Math.round(verticalBlockResolution * ratio * 16) * 2 + 1;
-  h = ((verticalBlockResolution * 16) - 16) * 2;
+  w = Math.round(verticalBlockResolution * ratio * 16) + 1;
+  h = verticalBlockResolution * 16;
 
   const canvas = document.getElementById('displayMinecraftBlockConstruction');
 
@@ -278,9 +278,12 @@ function constructBlockCanvas(ratio, newDataSet, verticalBlockResolution) {
 
       let blockImage = new Image();
 
+
+
       blockImage.onload = function() {
 
         context.drawImage(blockImage, newDataSet[i].x, newDataSet[i].y); //doesn't actually create block img
+        console.log("test yeet");
 
       }
       blockImage.src = newDataSet[i].blockValue + ".png";
