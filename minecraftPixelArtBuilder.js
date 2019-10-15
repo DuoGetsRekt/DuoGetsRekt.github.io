@@ -230,7 +230,7 @@ function calculateCoordinatePoints(pixelDataSet, ratio, verticalBlockResolution)
   for (var i = 1; i < pixelDataSet.length - 1; i += 2) {
 
     currentCalculatedXValue += 16;
-    if (currentCalculatedXValue > ((verticalBlockResolution * ratio) * 32)) {
+    if (currentCalculatedXValue > ((verticalBlockResolution * ratio) * 128)) {
 
       currentCalculatedYValue += 16;
       currentCalculatedXValue = 0;
@@ -264,7 +264,7 @@ function constructBlockCanvas(ratio, newDataSet, verticalBlockResolution) {
 
   const canvas = document.getElementById('displayMinecraftBlockConstruction');
 
-  canvas.width = w * 2;
+  canvas.width = w * 4;
   canvas.height = h;
 
 
