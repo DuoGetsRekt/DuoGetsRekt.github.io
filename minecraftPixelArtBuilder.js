@@ -281,7 +281,6 @@ function constructBlockCanvas(ratio, newDataSet, verticalBlockResolution) {
       blockImage.onload = function() {
 
         context.drawImage(blockImage, newDataSet[i].x, newDataSet[i].y); //doesn't actually create block img
-        console.log("test yeet");
 
       }
       blockImage.src = newDataSet[i].blockValue + ".png";
