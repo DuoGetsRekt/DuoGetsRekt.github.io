@@ -264,7 +264,7 @@ function constructBlockCanvas(ratio, newDataSet, verticalBlockResolution) {
 
   const canvas = document.getElementById('displayMinecraftBlockConstruction');
 
-  canvas.width = w;
+  canvas.width = w * 2;
   canvas.height = h;
 
 
