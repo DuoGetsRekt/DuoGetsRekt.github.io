@@ -230,7 +230,7 @@ function calculateCoordinatePoints(pixelDataSet, ratio, verticalBlockResolution)
   for (var i = 1; i < pixelDataSet.length - 1; i += 2) {
 
     currentCalculatedXValue += 16;
-    if (currentCalculatedXValue > ((verticalBlockResolution * ratio) * 16)) {
+    if (currentCalculatedXValue > ((verticalBlockResolution * ratio) * 32)) {
 
       currentCalculatedYValue += 16;
       currentCalculatedXValue = 0;
