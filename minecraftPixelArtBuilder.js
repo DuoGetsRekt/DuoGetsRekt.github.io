@@ -1,20 +1,79 @@
+let blockImages = {};
+
+//Pre-loads every image beforehand such that performance is improved later.
+function loadImages() {
+
+  let blocks = ['black_concrete', 'black_terracotta', 'netherrack', 'nether_wart_block', 'red_concrete_powder', 'dark_oak_log', 'green_terracotta', 'brown_concrete', 'melon_top', 'orange_concrete', 'green_concrete', 'green_wool', 'green_concrete_powder', 'oak_log', 'orange_concrete_powder', 'lime_concrete', 'lime_concrete', 'lime_concrete_powder', 'hay_block_top', 'yellow_concrete', 'lime_wool', 'lime_concrete', 'lime_concrete_powder', 'melon_top', 'yellow_concrete', 'black_wool', 'gravel', 'spruce_planks', 'pink_terracotta', 'red_concrete_powder', 'cyan_terracotta', 'coarse_dirt', 'bricks', 'light_gray_terracotta', 'red_concrete_powder', 'brown_concrete_powder', 'dark_prismarine', 'acacia_log', 'acacia_planks', 'acacia_planks', 'dark_prismarine', 'lime_terracotta', 'lime_terracotta', 'oak_planks', 'yellow_concrete_powder', 'slime_block', 'slime_block', 'lime_wool', 'melon_top', 'yellow_concrete', 'blue_concrete', 'mycelium_top', 'mycelium_top', 'pink_terracotta', 'red_concrete_powder', 'lapis_block', 'blue_terracotta', 'magenta_terracotta', 'magenta_terracotta', 'magenta_concrete', 'cyan_concrete', 'cracked_stone_bricks', 'andesite', 'granite', 'jungle_planks', 'dark_prismarine', 'green_concrete', 'green_concrete_powder', 'hay_block_top', 'birch_planks', 'slime_block', 'slime_block', 'slime_block', 'slime_block', 'yellow_concrete_powder', 'blue_concrete', 'blue_wool', 'magenta_concrete', 'magenta_concrete', 'pink_concrete', 'blue_wool', 'blue_concrete_powder', 'purple_concrete', 'magenta_concrete_powder', 'magenta_concrete_powder', 'light_blue_concrete', 'blue_concrete_powder', 'purpur_block', 'pink_concrete', 'pink_wool', 'cyan_concrete_powder', 'cobblestone', 'clay', 'birch_log', 'diorite', 'prismarine_bricks', 'prismarine_bricks', 'prismarine_bricks', 'end_stone', 'end_stone', 'blue_concrete', 'blue_concrete', 'purple_concrete', 'purple_concrete_powder', 'pink_concrete', 'blue_concrete_powder', 'blue_concrete_powder', 'purple_concrete', 'purple_wool', 'pink_concrete', 'light_blue_concrete', 'light_blue_wool', 'lapis_block', 'purpur_block', 'pink_concrete', 'light_blue_concrete_powder', 'light_blue_concrete_powder', 'blue_ice', 'packed_ice', 'white_concrete', 'light_blue_concrete_powder', 'light_blue_concrete_powder', 'light_blue_concrete_powder', 'packed_ice', 'bone_block_side'];
+
+  for (let block of blocks) {
+    blockImages[block] = new Image();
+    blockImages[block].src = block + ".png";
+    blockImages[block].onload = function() {
+      console.log("Loaded " + block + ".png");
+    }
+
+  }
+
+}
+
+let imageWidth, imageHeight;
+
 function getUserInputValues() {
 
+  let verticalBlockResolution = document.getElementById("verticalBlockCountTextBox").value;
+
+  let previewImage = new Image()
+  previewImage.onload = function() {
+
+    imageWidth = this.width;
+    imageHeight = this.height;
+
+  }
+
+}
+
+
+//Fetches the complete set of lower bounds for color values, this determines how pixels are classified
+function fetchBlockLowerBoundaries() {
+
+  let blockBoundaryData = {
+
+    blockName: ['black_concrete', 'black_terracotta', 'netherrack', 'nether_wart_block', 'red_concrete_powder', 'dark_oak_log', 'green_terracotta', 'brown_concrete', 'melon_top', 'orange_concrete', 'green_concrete', 'green_wool', 'green_concrete_powder', 'oak_log', 'orange_concrete_powder', 'lime_concrete', 'lime_concrete', 'lime_concrete_powder', 'hay_block_top', 'yellow_concrete', 'lime_wool', 'lime_concrete', 'lime_concrete_powder', 'melon_top', 'yellow_concrete', 'black_wool', 'gravel', 'spruce_planks', 'pink_terracotta', 'red_concrete_powder', 'cyan_terracotta', 'coarse_dirt', 'bricks', 'light_gray_terracotta', 'red_concrete_powder', 'brown_concrete_powder', 'dark_prismarine', 'acacia_log', 'acacia_planks', 'acacia_planks', 'dark_prismarine', 'lime_terracotta', 'lime_terracotta', 'oak_planks', 'yellow_concrete_powder', 'slime_block', 'slime_block', 'lime_wool', 'melon_top', 'yellow_concrete', 'blue_concrete', 'mycelium_top', 'mycelium_top', 'pink_terracotta', 'red_concrete_powder', 'lapis_block', 'blue_terracotta', 'magenta_terracotta', 'magenta_terracotta', 'magenta_concrete', 'cyan_concrete', 'cracked_stone_bricks', 'andesite', 'granite', 'jungle_planks', 'dark_prismarine', 'green_concrete', 'green_concrete_powder', 'hay_block_top', 'birch_planks', 'slime_block', 'slime_block', 'slime_block', 'slime_block', 'yellow_concrete_powder', 'blue_concrete', 'blue_wool', 'magenta_concrete', 'magenta_concrete', 'pink_concrete', 'blue_wool', 'blue_concrete_powder', 'purple_concrete', 'magenta_concrete_powder', 'magenta_concrete_powder', 'light_blue_concrete', 'blue_concrete_powder', 'purpur_block', 'pink_concrete', 'pink_wool', 'cyan_concrete_powder', 'cobblestone', 'clay', 'birch_log', 'diorite', 'prismarine_bricks', 'prismarine_bricks', 'prismarine_bricks', 'end_stone', 'end_stone', 'blue_concrete', 'blue_concrete', 'purple_concrete', 'purple_concrete_powder', 'pink_concrete', 'blue_concrete_powder', 'blue_concrete_powder', 'purple_concrete', 'purple_wool', 'pink_concrete', 'light_blue_concrete', 'light_blue_wool', 'lapis_block', 'purpur_block', 'pink_concrete', 'light_blue_concrete_powder', 'light_blue_concrete_powder', 'blue_ice', 'packed_ice', 'white_concrete', 'light_blue_concrete_powder', 'light_blue_concrete_powder', 'light_blue_concrete_powder', 'packed_ice', 'bone_block_side'],
+
+    redValue: [0, 56, 111, 166, 231, 0, 56, 111, 166, 231, 0, 56, 111, 166, 231, 0, 56, 111, 166, 231, 0, 56, 111, 166, 231, 0, 56, 111, 166, 231, 0, 56, 111, 166, 231, 0, 56, 111, 166, 231, 0, 56, 111, 166, 231, 0, 56, 111, 166, 231, 0, 56, 111, 166, 231, 0, 56, 111, 166, 231, 0, 56, 111, 166, 231, 0, 56, 111, 166, 231, 0, 56, 111, 166, 231, 0, 56, 111, 166, 231, 0, 56, 111, 166, 231, 0, 56, 111, 166, 231, 0, 56, 111, 166, 231, 0, 56, 111, 166, 231, 0, 56, 111, 166, 231, 0, 56, 111, 166, 231, 0, 56, 111, 166, 231, 0, 56, 111, 166, 231, 0, 56, 111, 166, 231],
+
+    greenValue: [0, 0, 0, 0, 0, 56, 56, 56, 56, 56, 111, 111, 111, 111, 111, 166, 166, 166, 166, 166, 231, 231, 231, 231, 231, 0, 0, 0, 0, 0, 56, 56, 56, 56, 56, 111, 111, 111, 111, 111, 166, 166, 166, 166, 166, 231, 231, 231, 231, 231, 0, 0, 0, 0, 0, 56, 56, 56, 56, 56, 111, 111, 111, 111, 111, 166, 166, 166, 166, 166, 231, 231, 231, 231, 231, 0, 0, 0, 0, 0, 56, 56, 56, 56, 56, 111, 111, 111, 111, 111, 166, 166, 166, 166, 166, 231, 231, 231, 231, 231, 0, 0, 0, 0, 0, 56, 56, 56, 56, 56, 111, 111, 111, 111, 111, 166, 166, 166, 166, 166, 231, 231, 231, 231, 231],
+
+    blueValue: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 111, 111, 111, 111, 111, 111, 111, 111, 111, 111, 111, 111, 111, 111, 111, 111, 111, 111, 111, 111, 111, 111, 111, 111, 111, 166, 166, 166, 166, 166, 166, 166, 166, 166, 166, 166, 166, 166, 166, 166, 166, 166, 166, 166, 166, 166, 166, 166, 166, 166, 231, 231, 231, 231, 231, 231, 231, 231, 231, 231, 231, 231, 231, 231, 231, 231, 231, 231, 231, 231, 231, 231, 231, 231, 231]
+
+  };
+
+  return blockBoundaryData;
+
+}
+
+/*
+let chunk = 16;
+
+let imageWidth, imageHeight;
+
+function getUserInputValues() {
+*/
   /*Retrieves the vertical block resolution value entered by the user, this value determines
   how many blocks vertical the image will be scaled to during processing.*/
-  var verticalBlockResolution = document.getElementById("verticalBlockCountTextBox").value;
+/*  var verticalBlockResolution = document.getElementById("verticalBlockCountTextBox").value;
 
   //Creates a new image object, and assigns width and height variables upon loading.
   var sampleImage = new Image();
   sampleImage.onload = function() {
 
-    var imageWidth = this.width;
-    var imageHeight = this.height;
+    imageWidth = this.width;
+    imageHeight = this.height;
 
     /*Checks if the ratio between scaled block resolution and image ratio is 2:1 or more,
     this is to ensure that the output pixel art has higher quality image accuracy due to
     color blending*/
-    if (verticalBlockResolution == 0) {
+/*    if (verticalBlockResolution == 0) {
 
       verticalBlockResolution = 60;
 
@@ -41,7 +100,7 @@ function getUserInputValues() {
 
 function getBlockToImageResolutionRatio(verticalBlockResolution, imageHeight) {
 
- return (imageHeight / verticalBlockResolution);
+ return Math.floor(imageHeight / verticalBlockResolution);
 
 }
 
@@ -69,19 +128,18 @@ function createImageColorMap(verticalBlockResolution, imageHeight, imageWidth, s
 
   /*The pixel data set and the co-ordinate dataset will be used to match co-ordinate points
   to blocks and also blend some points together for better colour accuracy.*/
-  var pixelDataSet = [];
+/*  var pixelDataSet = [];
 
   /*The double for loop jumps to regualrly intervalled co-ordinates on the image and takes
   the colour and co-ordinate data from that given point*/
-  var maximumProgress = (imageWidth / (ratio / 2)) * (imageHeight / ratio);
+/*  var maximumProgress = (imageWidth / (ratio / 2)) * (imageHeight / ratio);
   var currentProgress = 0;
 
-  for (var y = 0; y < imageHeight - 1; y++) {
+  for (var y = 0; y < imageHeight - 1; y += chunk) {
 
-    for (var x = 0; x < imageWidth - 1; x += (ratio)) {
+    for (var x = 0; x < imageWidth - 1; x += chunk) {
 
     //  pixelDataSet.push();
-
 
       //// TEMP:
       var pixelDataSetInstance = {
@@ -187,16 +245,34 @@ function matchColorPointsToMinecraftBlocks(pixelDataSet, ratio, verticalBlockRes
           }
         }
       } */
-      }
+
+/*      }
 
     }
 
 
 
 
-  constructBlockCanvas(ratio, newDataSet, verticalBlockResolution);
+/*  constructBlockCanvas(ratio, newDataSet, verticalBlockResolution);
 
 }
+
+let blockImages = {};
+
+function loadImages() {
+
+  let blockFiles = ['black_concrete', 'black_terracotta', 'netherrack', 'nether_wart_block', 'red_concrete_powder', 'dark_oak_log', 'green_terracotta', 'brown_concrete', 'melon_top', 'orange_concrete', 'green_concrete', 'green_wool', 'green_concrete_powder', 'oak_log', 'orange_concrete_powder', 'lime_concrete', 'lime_concrete', 'lime_concrete_powder', 'hay_block_top', 'yellow_concrete', 'lime_wool', 'lime_concrete', 'lime_concrete_powder', 'melon_top', 'yellow_concrete', 'black_wool', 'gravel', 'spruce_planks', 'pink_terracotta', 'red_concrete_powder', 'cyan_terracotta', 'coarse_dirt', 'bricks', 'light_gray_terracotta', 'red_concrete_powder', 'brown_concrete_powder', 'dark_prismarine', 'acacia_log', 'acacia_planks', 'acacia_planks', 'dark_prismarine', 'lime_terracotta', 'lime_terracotta', 'oak_planks', 'yellow_concrete_powder', 'slime_block', 'slime_block', 'lime_wool', 'melon_top', 'yellow_concrete', 'blue_concrete', 'mycelium_top', 'mycelium_top', 'pink_terracotta', 'red_concrete_powder', 'lapis_block', 'blue_terracotta', 'magenta_terracotta', 'magenta_terracotta', 'magenta_concrete', 'cyan_concrete', 'cracked_stone_bricks', 'andesite', 'granite', 'jungle_planks', 'dark_prismarine', 'green_concrete', 'green_concrete_powder', 'hay_block_top', 'birch_planks', 'slime_block', 'slime_block', 'slime_block', 'slime_block', 'yellow_concrete_powder', 'blue_concrete', 'blue_wool', 'magenta_concrete', 'magenta_concrete', 'pink_concrete', 'blue_wool', 'blue_concrete_powder', 'purple_concrete', 'magenta_concrete_powder', 'magenta_concrete_powder', 'light_blue_concrete', 'blue_concrete_powder', 'purpur_block', 'pink_concrete', 'pink_wool', 'cyan_concrete_powder', 'cobblestone', 'clay', 'birch_log', 'diorite', 'prismarine_bricks', 'prismarine_bricks', 'prismarine_bricks', 'end_stone', 'end_stone', 'blue_concrete', 'blue_concrete', 'purple_concrete', 'purple_concrete_powder', 'pink_concrete', 'blue_concrete_powder', 'blue_concrete_powder', 'purple_concrete', 'purple_wool', 'pink_concrete', 'light_blue_concrete', 'light_blue_wool', 'lapis_block', 'purpur_block', 'pink_concrete', 'light_blue_concrete_powder', 'light_blue_concrete_powder', 'blue_ice', 'packed_ice', 'white_concrete', 'light_blue_concrete_powder', 'light_blue_concrete_powder', 'light_blue_concrete_powder', 'packed_ice', 'bone_block_side'];
+
+  for (let block of blockFiles) {
+    blockImages[block] = new Image();
+    blockImages[block].src = block + ".png";
+    blockImages[block].onload = function() {
+      console.log("Loaded " + block + ".png");
+    }
+  }
+
+}
+
 
 function getBlockBoundaryData() {
 
@@ -223,12 +299,15 @@ function calculateCoordinatePoints(pixelDataSet, ratio, verticalBlockResolution)
 
   var testObject = getDebuggingValues();
 
-  for (var i = 1; i < pixelDataSet.length - 1; i += ratio) {
+  for (var i = 1; i < pixelDataSet.length - 1; i++) {
 
-    currentCalculatedXValue += 16;
-    if (currentCalculatedXValue > ((verticalBlockResolution * ratio) * 16 * testObject.strechValue) + testObject.shiftValue) {
+    console.log((verticalBlockResolution * ratio * 16 * testObject.strechValue) + testObject.shiftValue);
 
-      currentCalculatedYValue += 16;
+    currentCalculatedXValue += chunk;
+    if (currentCalculatedXValue > imageWidth) {
+        //(verticalBlockResolution * ratio * 16 * testObject.strechValue) + testObject.shiftValue) {
+
+      currentCalculatedYValue += chunk;
       currentCalculatedXValue = 0;
 
     }
@@ -254,7 +333,7 @@ function constructBlockCanvas(ratio, newDataSet, verticalBlockResolution) {
 
 
 
-  w = Math.round(verticalBlockResolution * ratio * 16) * 2);
+  w = Math.round(verticalBlockResolution * chunk * 16) * 2;
   h = ((verticalBlockResolution * 16) - 16) * 2;
 
   const canvas = document.getElementById('displayMinecraftBlockConstruction');
@@ -267,23 +346,19 @@ function constructBlockCanvas(ratio, newDataSet, verticalBlockResolution) {
   context.fillStyle = '#ffffff';
   context.fillRect(0, 0, w, h);
 
-  for (let i = 0; i < newDataSet.length; i += ratio) {
+  for (let i = 0; i < newDataSet.length; i++) {
 
-    if ((newDataSet[i].blockValue).length > 0) {
+      if ((newDataSet[i].blockValue).length > 0) {
 
-      let blockImage = new Image();
+        let x = (ratio * i) % imageWidth;
+        let y = Math.floor(i * chunk / imageHeight) * chunk;
 
-      blockImage.onload = function() {
-
-        context.drawImage(blockImage, newDataSet[i].x, newDataSet[i].y); //doesn't actually create block img
-        console.log("test yeet");
+        context.drawImage(blockImages[newDataSet[i].blockValue],  0, 0, 16, 16, x, y, chunk, chunk); //doesn't actually create block img
 
       }
-      blockImage.src = newDataSet[i].blockValue + ".png";
 
     }
 
-  }
 
 }
 
