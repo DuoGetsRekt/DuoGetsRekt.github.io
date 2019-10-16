@@ -61,9 +61,9 @@ function getCoordinateColorData(previewImage, imageWidth, imageHeight, ratio) {
 
       let colorDataSetInstance = {
 
-        redValue: 99,//(context.getImageData(x, y, 1, 1).data[0]),
-        blueValue: 66,//(context.getImageData(x, y, 1, 1).data[1]),
-        greenValue: 7,//(context.getImageData(x, y, 1, 1).data[2])
+        redValue: (context.getImageData(x, y, 1, 1).data[0]),
+        blueValue: (context.getImageData(x, y, 1, 1).data[1]),
+        greenValue: (context.getImageData(x, y, 1, 1).data[2])
 
         //Shrinks the co-odinate set to increments of 1 so that scaling is made easier for the map later.
         xIndex: x / ratio,
@@ -123,7 +123,7 @@ function displayPixelArt(colorDataSet, ratio) {
       //context.drawImage(blockImages[j], (colorDataSet.xIndex * 16) - 16, (colorDataSet.yIndex * 16) - 16);
 
     }
-    
+
     context.drawImage(blockImages[colorDataSet[i].minecraftBlockAssigned],  0, 0, 16, 16, (colorDataSet[i].xIndex * 16) - 16, (colorDataSet[i].yIndex * 16) - 16, 16, 16);
     console.log(colorDataSet[i]);
 
