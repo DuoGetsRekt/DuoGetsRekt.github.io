@@ -13,7 +13,7 @@
 
   </head>
 
-  <body>
+  <body onload="loadImages()">
 
     <p>Vertical Block Count</p>
     <input type="text" id="verticalBlockCountTextBox">
@@ -28,10 +28,10 @@
     <hr>
 
     <p>Select an image to render</p>
-    <select id="image-select">
+    <select id="imageSelector">
 
       <option value="shrek.jpg">Vad gör du i mitt träsk?</option>
-      <option value="endgame-poster.jpg">Pixelmon</option>
+      <option value="endgame-poster.jpg">Minceraft: Endergame</option>
       <option value="pancakes.jpg">Sorry aboot that eh?</option>
 
     </select>
@@ -43,7 +43,7 @@
     <img src="shrek.jpg" width="200px">
 
     <hr>
-    <p>Pixelmon</p>
+    <p>Minceraft: Endergame</p>
     <img src="endgame-poster.jpg" width="200px">
     <hr>
 
@@ -55,6 +55,10 @@
     <canvas id="displayBaseImage" width="300" height="300"></canvas>
     <hr>
 
+
+
+
+    <hr>
     <h3>The Masterpiece</h3>
     <canvas id="displayMinecraftBlockConstruction"></canvas>
 
