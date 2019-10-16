@@ -221,10 +221,12 @@ function calculateCoordinatePoints(pixelDataSet, ratio, verticalBlockResolution)
   var lastYValue = 0;
   var newDataSet = []
 
-  for (var i = 1; i < pixelDataSet.length - 1; i += 2) {
+  var testObject = getDebuggingValues();
+
+  for (var i = 1; i < pixelDataSet.length - 1; i += ratio) {
 
     currentCalculatedXValue += 16;
-    if (currentCalculatedXValue > ((verticalBlockResolution * ratio) * 32) - 16) {
+    if (currentCalculatedXValue > ((verticalBlockResolution * ratio) * 16 * testObject.strechValue) + testObject.shiftValue) {
 
       currentCalculatedYValue += 16;
       currentCalculatedXValue = 0;
@@ -252,8 +254,7 @@ function constructBlockCanvas(ratio, newDataSet, verticalBlockResolution) {
 
 
 
-
-  w = Math.round(verticalBlockResolution * ratio * 16) * 2 + 1;
+  w = Math.round(verticalBlockResolution * ratio * 16) * 2);
   h = ((verticalBlockResolution * 16) - 16) * 2;
 
   const canvas = document.getElementById('displayMinecraftBlockConstruction');
@@ -266,7 +267,7 @@ function constructBlockCanvas(ratio, newDataSet, verticalBlockResolution) {
   context.fillStyle = '#ffffff';
   context.fillRect(0, 0, w, h);
 
-  for (let i = 0; i < newDataSet.length; i++) {
+  for (let i = 0; i < newDataSet.length; i += ratio) {
 
     if ((newDataSet[i].blockValue).length > 0) {
 
@@ -286,6 +287,29 @@ function constructBlockCanvas(ratio, newDataSet, verticalBlockResolution) {
 
 }
 
+function getDebuggingValues() {
+
+  let debuggingObject = {
+
+      strechValue: 1,
+      shiftValue: 0
+
+  }
+
+  if (document.getElementById("debuggingStretchTest").value !== undefined) {
+
+    debuggingObject.stretchValue = document.getElementById("debuggingStretchTest").value;
+
+  }
+  if (document.getElementById("debuggingShifttest").value !== undefined) {
+
+    debuggingObject.shiftValue = document.getElementById("debuggingShifttest").value;
+
+  }
+
+  return debuggingObject;
+
+}
 
 //WORK ON LATER
 /*function verticalBlend(pixelDataSet, averageBlend) {
