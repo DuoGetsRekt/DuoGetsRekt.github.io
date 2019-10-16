@@ -1,4 +1,4 @@
-let blockImages = {};
+var blockImages = {[]};
 
 //Pre-loads every image beforehand such that performance is improved later.
 function loadImages() {
@@ -50,7 +50,7 @@ function getCoordinateColorData(previewImage, imageWidth, imageHeight, ratio) {
   canvas.width = imageWidth;
   canvas.height = imageHeight;
   context.drawImage(previewImage, 0, 0);
-
+  console.log(blockImages[44].src);
   var colorDataSet = [];
 
   //Jumps to incremented points in the y axis every time the x axis repeats a full iteration
@@ -112,8 +112,8 @@ function displayPixelArt(colorDataSet, ratio) {
           if (colorDataSet[i].blueValue >= blockBoundaryData.blueValue[j] && colorDataSet[i].blueValue < blockBoundaryData.blueValue[j] + 55) {
 
             colorDataSet[i].minecraftBlockAssigned = blockBoundaryData.blockName[j];
-            console.log("bv: " + colorDataSet[i].minecraftBlockAssigned + " xindex " + colorDataSet[i].xIndex + " yIndex " + colorDataSet[i].yIndex);
-
+            console.log("bv: " + colorDataSet[i].minecraftBlockAssigned + " xIndex " + colorDataSet[i].xIndex + " yIndex " + colorDataSet[i].yIndex);
+            context.drawImage(colorDataSet[i].minecraftBlockAssigned + ".png",  0, 0, 16, 16, (colorDataSet[i].xIndex * 16) - 16, (colorDataSet[i].yIndex * 16) - 16, 16, 16);
           }
 
         }
@@ -124,7 +124,7 @@ function displayPixelArt(colorDataSet, ratio) {
 
     }
 
-    context.drawImage(blockImages[colorDataSet[i].minecraftBlockAssigned],  0, 0, 16, 16, (colorDataSet[i].xIndex * 16) - 16, (colorDataSet[i].yIndex * 16) - 16, 16, 16);
+
     console.log(colorDataSet[i]);
 
   }
@@ -135,7 +135,7 @@ function displayPixelArt(colorDataSet, ratio) {
 
 //retrieves the status of the interface dropdown menu so the correct file name is fetched.
 function determineImageToSampleFrom() {
-
+  console.log(document.getElementById("imageSelector").value);
   if (document.getElementById("imageSelector").value !== null) {
 
     return document.getElementById("imageSelector").value;
