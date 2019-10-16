@@ -136,7 +136,16 @@ function displayPixelArt(colorDataSet, ratio) {
 //retrieves the status of the interface dropdown menu so the correct file name is fetched.
 function determineImageToSampleFrom() {
 
+  if (document.getElementById("imageSelector").value !== null) {
+
     return document.getElementById("imageSelector").value;
+
+  } else {
+
+    return "endgame-poster.jpg";
+
+  }
+
 
 }
 
