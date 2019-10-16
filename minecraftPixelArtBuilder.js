@@ -11,26 +11,135 @@ function loadImages() {
     blockImages[block].onload = function() {
       console.log("Loaded " + block + ".png");
     }
-
   }
-
 }
+
+
 
 let imageWidth, imageHeight;
 
+//retrieves the base values necessary for image dimension calculation
 function getUserInputValues() {
 
   let verticalBlockResolution = document.getElementById("verticalBlockCountTextBox").value;
-
   let previewImage = new Image()
   previewImage.onload = function() {
 
     imageWidth = this.width;
     imageHeight = this.height;
 
+    getCoordinateColorData(previewImage, imageWidth, imageHeight, getRatio(imageWidth, verticalBlockResolution));
+
+  }
+  previewImage.src = determineImageToSampleFrom();
+
+}
+
+//Returns the proportion of the amount of pixels vertical to every vertical block, used later for scaling
+function getRatio(imageHeight, verticalBlockResolution) {
+
+  return Math.floor(imageHeight / verticalBlockResolution);
+
+}
+
+//Takes sample colour data from the image so that there is a renderable grid of colours that can later be assigned minecraft block values.
+function getCoordinateColorData(previewImage, imageWidth, imageHeight, ratio) {
+
+  const canvas = document.getElementById('displayBaseImage');
+  const context = canvas.getContext('2d');
+  canvas.width = imageWidth;
+  canvas.height = imageHeight;
+  context.drawImage(previewImage, 0, 0);
+
+  var colorDataSet = [];
+
+  //Jumps to incremented points in the y axis every time the x axis repeats a full iteration
+  for (let y = 0; y < imageHeight; y += ratio) {
+
+    //Jumps to incremented points in the x axis every iteration
+    for (let x = 0; x < imageWidth; x += ratio) {
+
+      let colorDataSetInstance = {
+
+        redValue: 99,//(context.getImageData(x, y, 1, 1).data[0]),
+        blueValue: 66,//(context.getImageData(x, y, 1, 1).data[1]),
+        greenValue: 7,//(context.getImageData(x, y, 1, 1).data[2])
+
+        //Shrinks the co-odinate set to increments of 1 so that scaling is made easier for the map later.
+        xIndex: x / ratio,
+        yIndex: y / ratio,
+        minecraftBlockAssigned: ""
+
+      }
+      colorDataSet.push(colorDataSetInstance);
+      console.log("xIndex " + colorDataSetInstance.xIndex + " yIndex " + colorDataSetInstance.yIndex);
+    }
+
+  }
+  displayPixelArt(colorDataSet, ratio)
+
+}
+
+
+//calculates where to render the block image and what block image to render
+function displayPixelArt(colorDataSet, ratio) {
+
+  let blockBoundaryData = fetchBlockLowerBoundaries();
+
+  w = Math.floor(imageWidth / ratio) * 16;
+  h = Math.floor(imageHeight / ratio) * 16;
+
+  const canvas = document.getElementById('displayMinecraftBlockConstruction');
+  const context = canvas.getContext('2d');
+  canvas.width = w;
+  canvas.height = h;
+
+
+  context.fillStyle = '#ff69ff';
+  context.fillRect(0, 0, w, h);
+
+  //used as an index for the pixels that are to be rendered
+  for (let i = 0; i < colorDataSet.length; i++) {
+
+    //Used as the index for all of the possible block values
+    for (let j = 0; j < 125; j++) {
+
+      //Checks whether the block fits in the individual constraints, nested ifs were used such that the conditions can actually all be seen.
+      if (colorDataSet[i].redValue >= blockBoundaryData.redValue[j] && colorDataSet[i].redValue < blockBoundaryData.redValue[j] + 55 && colorDataSet.blockValue !== "") {
+
+        if (colorDataSet[i].greenValue >= blockBoundaryData.greenValue[j] && colorDataSet[i].greenValue < blockBoundaryData.greenValue[j] + 55) {
+
+          if (colorDataSet[i].blueValue >= blockBoundaryData.blueValue[j] && colorDataSet[i].blueValue < blockBoundaryData.blueValue[j] + 55) {
+
+            colorDataSet[i].minecraftBlockAssigned = blockBoundaryData.blockName[j];
+            console.log("bv: " + colorDataSet[i].minecraftBlockAssigned + " xindex " + colorDataSet[i].xIndex + " yIndex " + colorDataSet[i].yIndex);
+
+          }
+
+        }
+
+      }
+
+      //context.drawImage(blockImages[j], (colorDataSet.xIndex * 16) - 16, (colorDataSet.yIndex * 16) - 16);
+
+    }
+    
+    context.drawImage(blockImages[colorDataSet[i].minecraftBlockAssigned],  0, 0, 16, 16, (colorDataSet[i].xIndex * 16) - 16, (colorDataSet[i].yIndex * 16) - 16, 16, 16);
+    console.log(colorDataSet[i]);
+
   }
 
 }
+
+
+
+//retrieves the status of the interface dropdown menu so the correct file name is fetched.
+function determineImageToSampleFrom() {
+
+    return document.getElementById("imageSelector").value;
+
+}
+
 
 
 //Fetches the complete set of lower bounds for color values, this determines how pixels are classified
