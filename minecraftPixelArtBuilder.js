@@ -118,7 +118,7 @@ function displayPixelArt(colorDataSet, ratio) {
 
             colorDataSet[i].minecraftBlockAssigned = blockBoundaryData.blockName[j];
             console.log("bv: " + colorDataSet[i].minecraftBlockAssigned + " xIndex " + colorDataSet[i].xIndex + " yIndex " + colorDataSet[i].yIndex);
-            context.drawImage(blockImages[blockBoundaryData.blockName[j]].src,  0, 0, 16, 16, (colorDataSet[i].xIndex * 16) - 16, (colorDataSet[i].yIndex * 16) - 16, 16, 16);
+            context.drawImage(blockImages[blockBoundaryData.blockName[j]],  0, 0, 16, 16, (colorDataSet[i].xIndex * 16) - 16, (colorDataSet[i].yIndex * 16) - 16, 16, 16);
           }
 
         }
