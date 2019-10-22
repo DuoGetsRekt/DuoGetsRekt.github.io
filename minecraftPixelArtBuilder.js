@@ -1,4 +1,4 @@
-var blockImages = {[]};
+let blockImages = {};
 
 //Pre-loads every image beforehand such that performance is improved later.
 function loadImages() {
@@ -23,6 +23,9 @@ function getUserInputValues() {
 
   let verticalBlockResolution = document.getElementById("verticalBlockCountTextBox").value;
   let previewImage = new Image()
+
+  //console.log("bi: " + blockImages[]);
+
   previewImage.onload = function() {
 
     imageWidth = this.width;
@@ -50,7 +53,7 @@ function getCoordinateColorData(previewImage, imageWidth, imageHeight, ratio) {
   canvas.width = imageWidth;
   canvas.height = imageHeight;
   context.drawImage(previewImage, 0, 0);
-  console.log(blockImages[44].src);
+  console.log(blockImages['black_concrete'].src);
   var colorDataSet = [];
 
   //Jumps to incremented points in the y axis every time the x axis repeats a full iteration
@@ -111,9 +114,11 @@ function displayPixelArt(colorDataSet, ratio) {
 
           if (colorDataSet[i].blueValue >= blockBoundaryData.blueValue[j] && colorDataSet[i].blueValue < blockBoundaryData.blueValue[j] + 55) {
 
+
+
             colorDataSet[i].minecraftBlockAssigned = blockBoundaryData.blockName[j];
             console.log("bv: " + colorDataSet[i].minecraftBlockAssigned + " xIndex " + colorDataSet[i].xIndex + " yIndex " + colorDataSet[i].yIndex);
-            context.drawImage(blockImages[j],  0, 0, 16, 16, (colorDataSet[i].xIndex * 16) - 16, (colorDataSet[i].yIndex * 16) - 16, 16, 16);
+            context.drawImage(blockImages[blockBoundaryData.blockName[j]].src,  0, 0, 16, 16, (colorDataSet[i].xIndex * 16) - 16, (colorDataSet[i].yIndex * 16) - 16, 16, 16);
           }
 
         }
