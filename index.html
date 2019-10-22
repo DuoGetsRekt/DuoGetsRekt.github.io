@@ -12,16 +12,20 @@
 
       p {
 
+
+        color: #ffffff;
         font-family: bahnschrift;
-        padding-bottom: -20px;
+        font-size: 25px
+
 
       }
 
       img {
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        padding: 5px;
-        width: 150px;
+        overflow: hidden;
+        border-style: outset;
+        border: 5px solid #870bbd;
+        border-color: #870bbd;
+
       }
 
       .button {
@@ -32,14 +36,15 @@
         padding: 15px 32px;
         text-align: center;
         text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
+        font-size: 30px;
         font-family: bahnschrift;
+        width: 500px;
+        height: 80px;
 
       }
 
       .container {
-
+        overflow: hidden;
         display: block;
         position: relative;
         padding-left: 35px;
@@ -53,31 +58,31 @@
 
       }
 
+      body {
+
+        background-color: #303030;
+
+      }
+
     </style>
 
   </head>
 
   <body onload="loadImages()">
 
+    <p style="font-size: 70px">MINECRAFT PIXEL ART MAKER</p>
+
+    <br>
+
+    <img src="shrek.jpg" height="275px">
+    <img src="endgame-poster.jpg" height="275px">
+    <img src="pancakes.jpg" height="275px">
+
+    <br>
 
 
-    <p>Vad gör du i mitt träsk?</p>
-    <img src="shrek.jpg" width="200px">
-
-    <hr>
-
-    <p>Croc of Protein</p>
-    <img src="endgame-poster.jpg" width="200px">
-
-    <hr>
-
-    <p>Sorry aboot that eh?</p>
-    <img src="pancakes.jpg" width="200px">
-
-    <hr>
-
-    <p>REQUESTED VERTICAL PIXEL COUNT (RANGE: 10 - 200)</p>
-    <input type="text" class="button" id="verticalBlockCountTextBox">
+    <p>VERTICAL RESOLUTION (RANGE: 10 - 200)</p>
+    <input type="text" class="button" style="font-size: 70px; width: 150px" id="verticalBlockCountTextBox">
     <p id="resolutionRatioErrorMessage"></p>
 
     <p>SELECT AN IMAGE</p>
@@ -90,20 +95,20 @@
     </select>
 
 
-    <hr>
+    <br>
 
     <p>CLICK HERE TO RENDER YOUR MASTERPIECE!</p>
     <input type="button" class="button" onclick="getUserInputValues()" id="submit" value="SUBMIT">
 
-    <hr>
+    <br>
 
     <p>IMAGE PREVIEW</p>
     <canvas id="displayBaseImage" width="300" height="300"></canvas>
-    <hr>
+    <br>
 
 
 
-    <hr>
+    <br>
     <p>THE MASTERPIECE</p>
     <canvas id="displayMinecraftBlockConstruction"></canvas>
 
