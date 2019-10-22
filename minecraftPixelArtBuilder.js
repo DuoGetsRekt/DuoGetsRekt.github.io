@@ -22,19 +22,27 @@ let imageWidth, imageHeight;
 function getUserInputValues() {
 
   let verticalBlockResolution = document.getElementById("verticalBlockCountTextBox").value;
-  let previewImage = new Image()
+  if (verticalBlockResolution >= 10 && verticalBlockResolution <= 200) {
 
-  //console.log("bi: " + blockImages[]);
+    let previewImage = new Image()
 
-  previewImage.onload = function() {
+    //console.log("bi: " + blockImages[]);
 
-    imageWidth = this.width;
-    imageHeight = this.height;
+    previewImage.onload = function() {
 
-    getCoordinateColorData(previewImage, imageWidth, imageHeight, getRatio(imageWidth, verticalBlockResolution));
+      imageWidth = this.width;
+      imageHeight = this.height;
+
+      getCoordinateColorData(previewImage, imageWidth, imageHeight, getRatio(imageWidth, verticalBlockResolution));
+
+    }
+    previewImage.src = determineImageToSampleFrom();
+
+  } else {
+
+    console.log("ERROR: Vertical Block Resolution is out of bounds.")
 
   }
-  previewImage.src = determineImageToSampleFrom();
 
 }
 
@@ -53,7 +61,6 @@ function getCoordinateColorData(previewImage, imageWidth, imageHeight, ratio) {
   canvas.width = imageWidth;
   canvas.height = imageHeight;
   context.drawImage(previewImage, 0, 0);
-  console.log(blockImages['black_concrete'].src);
   var colorDataSet = [];
 
   //Jumps to incremented points in the y axis every time the x axis repeats a full iteration
@@ -73,15 +80,19 @@ function getCoordinateColorData(previewImage, imageWidth, imageHeight, ratio) {
         minecraftBlockAssigned: ""
 
       }
+
       colorDataSet.push(colorDataSetInstance);
+
+      //Increments and displays the status of the image rendering progress
+      currentProgressIterator++;
       console.log("xIndex " + colorDataSetInstance.xIndex + " yIndex " + colorDataSetInstance.yIndex);
+
     }
 
   }
   displayPixelArt(colorDataSet, ratio)
 
 }
-
 
 //calculates where to render the block image and what block image to render
 function displayPixelArt(colorDataSet, ratio) {
@@ -97,7 +108,7 @@ function displayPixelArt(colorDataSet, ratio) {
   canvas.height = h;
 
 
-  context.fillStyle = '#ff69ff';
+  context.fillStyle = '#ffffff';
   context.fillRect(0, 0, w, h);
 
   //used as an index for the pixels that are to be rendered
@@ -113,21 +124,25 @@ function displayPixelArt(colorDataSet, ratio) {
 
           if (colorDataSet[i].blueValue >= blockBoundaryData.blueValue[j] && colorDataSet[i].blueValue < blockBoundaryData.blueValue[j] + 55) {
 
-
-
             colorDataSet[i].minecraftBlockAssigned = blockBoundaryData.blockName[j];
+
+            //'fixes' the weird color gap bug, by masking them with the pixel adjacent.
+            if (colorDataSet[i].minecraftBlockAssigned === undefined && i > 0) {
+
+              colorDataSet[i].minecraftBlockAssigned = colorDataSet[i - 1].minecraftBlockAssigned;
+
+            }
+
             console.log("bv: " + colorDataSet[i].minecraftBlockAssigned + " xIndex " + colorDataSet[i].xIndex + " yIndex " + colorDataSet[i].yIndex);
             context.drawImage(blockImages[blockBoundaryData.blockName[j]],  0, 0, 16, 16, (colorDataSet[i].xIndex * 16) - 16, (colorDataSet[i].yIndex * 16) - 16, 16, 16);
+
           }
 
         }
 
       }
 
-      //context.drawImage(blockImages[j], (colorDataSet.xIndex * 16) - 16, (colorDataSet.yIndex * 16) - 16);
-
     }
-
 
     console.log(colorDataSet[i]);
 
@@ -135,11 +150,11 @@ function displayPixelArt(colorDataSet, ratio) {
 
 }
 
-
-
 //retrieves the status of the interface dropdown menu so the correct file name is fetched.
 function determineImageToSampleFrom() {
+
   console.log(document.getElementById("imageSelector").value);
+
   if (document.getElementById("imageSelector").value !== null) {
 
     return document.getElementById("imageSelector").value;
@@ -150,10 +165,7 @@ function determineImageToSampleFrom() {
 
   }
 
-
 }
-
-
 
 //Fetches the complete set of lower bounds for color values, this determines how pixels are classified
 function fetchBlockLowerBoundaries() {
