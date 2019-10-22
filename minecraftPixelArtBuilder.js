@@ -115,11 +115,11 @@ function displayPixelArt(colorDataSet, ratio) {
     for (let j = 0; j < 125; j++) {
 
       //Checks whether the block fits in the individual constraints, nested ifs were used such that the conditions can actually all be seen.
-      if (colorDataSet[i].redValue >= blockBoundaryData.redValue[j] && colorDataSet[i].redValue < blockBoundaryData.redValue[j] + 57 && colorDataSet.blockValue !== "") {
+      if (colorDataSet[i].redValue >= blockBoundaryData.redValue[j] && colorDataSet[i].redValue < blockBoundaryData.redValue[j] + 56 /* && colorDataSet.blockValue !== ""*/) {
 
-        if (colorDataSet[i].greenValue >= blockBoundaryData.greenValue[j] && colorDataSet[i].greenValue < blockBoundaryData.greenValue[j] + 57) {
+        if (colorDataSet[i].greenValue >= blockBoundaryData.greenValue[j] && colorDataSet[i].greenValue < blockBoundaryData.greenValue[j] + 56) {
 
-          if (colorDataSet[i].blueValue >= blockBoundaryData.blueValue[j] && colorDataSet[i].blueValue < blockBoundaryData.blueValue[j] + 57) {
+          if (colorDataSet[i].blueValue >= blockBoundaryData.blueValue[j] && colorDataSet[i].blueValue < blockBoundaryData.blueValue[j] + 56) {
 
             colorDataSet[i].minecraftBlockAssigned = blockBoundaryData.blockName[j];
 
