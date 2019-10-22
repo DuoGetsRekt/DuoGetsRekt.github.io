@@ -124,7 +124,7 @@ function displayPixelArt(colorDataSet, ratio) {
             colorDataSet[i].minecraftBlockAssigned = blockBoundaryData.blockName[j];
 
             //'fixes' the weird color gap bug, by masking them with the pixel adjacent.
-            if (colorDataSet[i].minecraftBlockAssigned === "" && i > 0) {
+            if ((colorDataSet[i].minecraftBlockAssigned == "" || colorDataSet[i].minecraftBlockAssigned == null || colorDataSet[i].minecraftBlockAssigned == undefined) && i > 0) {
 
               colorDataSet[i].minecraftBlockAssigned = colorDataSet[i - 1].minecraftBlockAssigned;
 
