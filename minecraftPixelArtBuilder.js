@@ -82,9 +82,6 @@ function getCoordinateColorData(previewImage, imageWidth, imageHeight, ratio) {
       }
 
       colorDataSet.push(colorDataSetInstance);
-
-      //Increments and displays the status of the image rendering progress
-      currentProgressIterator++;
       console.log("xIndex " + colorDataSetInstance.xIndex + " yIndex " + colorDataSetInstance.yIndex);
 
     }
