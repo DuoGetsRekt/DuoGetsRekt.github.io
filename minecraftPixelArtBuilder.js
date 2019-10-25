@@ -73,9 +73,9 @@ function getCoordinateColorData(previewImage, imageWidth, imageHeight, ratio) {
 
       let colorDataSetInstance = {
 
-        redValue: 55, //(context.getImageData(x, y, 1, 1).data[0]),
-        greenValue: 55, //(context.getImageData(x, y, 1, 1).data[1]),
-        blueValue: 55, //(context.getImageData(x, y, 1, 1).data[2]),
+        redValue: (context.getImageData(x, y, 1, 1).data[0]),
+        greenValue: (context.getImageData(x, y, 1, 1).data[1]),
+        blueValue: (context.getImageData(x, y, 1, 1).data[2]),
         //Shrinks the co-odinate set to increments of 1 so that scaling is made easier for the map later.
         xIndex: x / ratio,
         yIndex: y / ratio,
