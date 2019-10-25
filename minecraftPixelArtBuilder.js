@@ -1,23 +1,4 @@
 
-function move(width, destinationWidth) {
-
-  let elem = document.getElementById("myBar");
-
-  console.log("width: " + width);
-  console.log("destinationWidth: " + destinationWidth);
-
-  if (!(width >= destinationWidth)) { // if the width is greater than or equal to 100 then
-    width++; // increment width by 1
-    if (width <= 100) {
-
-      elem.style.width = width + "%"; // the element's css style has a new width of x%
-      elem.innerHTML = width  + "%"; // not sure
-
-    }
-
-  }
-
-}
 
 let blockImages = {};
 
@@ -84,23 +65,17 @@ function getCoordinateColorData(previewImage, imageWidth, imageHeight, ratio) {
   context.drawImage(previewImage, 0, 0);
   var colorDataSet = [];
 
-  let maximumValue = Math.floor((imageWidth / ratio) * (imageHeight / ratio));
-  let totalIterations = 0;
-  let currentValue = 0;
-
   //Jumps to incremented points in the y axis every time the x axis repeats a full iteration
   for (let y = 0; y < imageHeight; y += ratio) {
 
     //Jumps to incremented points in the x axis every iteration
     for (let x = 0; x < imageWidth; x += ratio) {
 
-      totalIterations++;
-
       let colorDataSetInstance = {
 
-        redValue: (context.getImageData(x, y, 1, 1).data[0]),
-        greenValue: (context.getImageData(x, y, 1, 1).data[1]),
-        blueValue: (context.getImageData(x, y, 1, 1).data[2]),
+        redValue: 55, //(context.getImageData(x, y, 1, 1).data[0]),
+        greenValue: 55, //(context.getImageData(x, y, 1, 1).data[1]),
+        blueValue: 55, //(context.getImageData(x, y, 1, 1).data[2]),
         //Shrinks the co-odinate set to increments of 1 so that scaling is made easier for the map later.
         xIndex: x / ratio,
         yIndex: y / ratio,
@@ -112,9 +87,6 @@ function getCoordinateColorData(previewImage, imageWidth, imageHeight, ratio) {
       console.log("xIndex " + colorDataSetInstance.xIndex + " yIndex " + colorDataSetInstance.yIndex);
 
     }
-
-    currentValue = Math.floor((totalIterations / maximumValue) * 100);
-    move(currentValue, currentValue + 1);
 
   }
   displayPixelArt(colorDataSet, ratio)
