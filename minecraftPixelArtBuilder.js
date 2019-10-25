@@ -1,3 +1,24 @@
+
+function move(width, destinationWidth) {
+
+  let elem = document.getElementById("myBar");
+
+  console.log("width: " + width);
+  console.log("destinationWidth: " + destinationWidth);
+
+  if (!(width >= destinationWidth)) { // if the width is greater than or equal to 100 then
+    width++; // increment width by 1
+    if (width <= 100) {
+
+      elem.style.width = width + "%"; // the element's css style has a new width of x%
+      elem.innerHTML = width  + "%"; // not sure
+
+    }
+
+  }
+
+}
+
 let blockImages = {};
 
 //Pre-loads every image beforehand such that performance is improved later.
@@ -14,12 +35,12 @@ function loadImages() {
   }
 }
 
-
-
 let imageWidth, imageHeight;
 
 //retrieves the base values necessary for image dimension calculation
 function getUserInputValues() {
+
+
 
   let verticalBlockResolution = document.getElementById("verticalBlockCountTextBox").value;
   if (verticalBlockResolution >= 10 && verticalBlockResolution <= 200) {
@@ -63,11 +84,17 @@ function getCoordinateColorData(previewImage, imageWidth, imageHeight, ratio) {
   context.drawImage(previewImage, 0, 0);
   var colorDataSet = [];
 
+  let maximumValue = Math.floor((imageWidth / ratio) * (imageHeight / ratio));
+  let totalIterations = 0;
+  let currentValue = 0;
+
   //Jumps to incremented points in the y axis every time the x axis repeats a full iteration
   for (let y = 0; y < imageHeight; y += ratio) {
 
     //Jumps to incremented points in the x axis every iteration
     for (let x = 0; x < imageWidth; x += ratio) {
+
+      totalIterations++;
 
       let colorDataSetInstance = {
 
@@ -85,6 +112,9 @@ function getCoordinateColorData(previewImage, imageWidth, imageHeight, ratio) {
       console.log("xIndex " + colorDataSetInstance.xIndex + " yIndex " + colorDataSetInstance.yIndex);
 
     }
+
+    currentValue = Math.floor((totalIterations / maximumValue) * 100);
+    move(currentValue, currentValue + 1);
 
   }
   displayPixelArt(colorDataSet, ratio)
@@ -131,6 +161,8 @@ function displayPixelArt(colorDataSet, ratio) {
               colorDataSet[i].minecraftBlockAssigned = colorDataSet[i - 1].minecraftBlockAssigned;
 
             }
+
+
 
             console.log("bv: " + colorDataSet[i].minecraftBlockAssigned + " xIndex " + colorDataSet[i].xIndex + " yIndex " + colorDataSet[i].yIndex);
             context.drawImage(blockImages[blockBoundaryData.blockName[j]],  0, 0, 16, 16, (colorDataSet[i].xIndex * 16) - 16, (colorDataSet[i].yIndex * 16) - 16, 16, 16);
